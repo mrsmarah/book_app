@@ -11,19 +11,10 @@
       </header>
       <main>
         <form action="/searches" method="POST">
-          <label>
-            <span>Search by title or author</span>
-            <input type="text" name="search" />
-          </label>
-          <label>
-            <span>Title</span>
-            <input type="radio"/>
-          </label>
-          <label>
-            <span>Author</span>
-            <input type="radio">
-          </label>
-          <input type="submit"/>
+          <input type="text" name="searched"/>
+          <label><input type="radio" name="title" value="title"/>Title</label>
+          <label><input type="radio" name="author" value="author">Author</label>
+          <button>Submit</button>
         </form>
       </main>
 </body>

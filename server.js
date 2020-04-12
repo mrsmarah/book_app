@@ -17,7 +17,7 @@ app.get('/searches/new', (req, res) => {  // render the new.ejs from the views f
 });
 
 app.post('/searches', (req, res) => { // render the show.ejs from the views folder
-    const url = `https://www.googleapis.com/books/v1/volumes?q=${req.body.input}`;
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${req.body.searched}`;
     superagent.get(url).then((apiResponse) => {
         // console.log(apiResponse);
         const book = apiResponse.body.items.map((data) => {

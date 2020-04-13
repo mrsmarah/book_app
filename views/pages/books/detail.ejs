@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../../layout/head.ejs')%>
+  </head>
+  <body>
+    <header>
+        <%- include('../../layout/header.ejs')%>
+    </header>
+    <main>
+      <ul>
+        <li>
+            <img src="<%=book.image_url%>">
+            <p><%=book.title%></p>
+            <p><%=book.author%></p>
+          <p>description:<%=book.description%></p>
+        </li>
+      </ul>
+    </main>
+  </body>
+</html>

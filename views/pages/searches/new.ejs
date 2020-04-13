@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <%- include('../../layout/head.ejs')%>
+
 </head>
 <body>
     <header>
-        <h1>Form</h1>
-      </header>
+      <%- include('../../layout/header.ejs')%>
+    </header>
       <main>
         <form action="/searches" method="POST">
-          <input type="text" name="searched"/>
+          <input type="text" name="searched" placeholder="Enter a title or an author"/>
           <label><input type="radio" name="radio" value="title"/>Title</label>
           <label><input type="radio" name="radio" value="author"/>Author</label>
           <button>Submit</button>

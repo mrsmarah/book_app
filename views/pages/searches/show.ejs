@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <%- include('../../layout/head.ejs')%>
   </head>
   <body>
-    <h1>The Book:</h1>
-    <p><a href="/">Home</a></p>
+    <header>
+      <%- include('../../layout/header.ejs')%>
+    </header>
     <ul>
       <% book.forEach(item=>{%>
       <li>
-        <img src="<%=item.image_url%>">
-        <p><%=item.title%></p>
-        <p><%=item.author%></p>
-        <p><%=item.description%></p>
+        <form action="/books" method="POST">
+        <input type="hidden" name="img" value="<%=item.image_url%>"/><img src="<%=item.image_url%>">
+        <input type="hidden" name="title" value="<%=item.title%>"/><p><%=item.title%></p>
+        <input type="hidden" name="author" value="<%=item.author%>"/><p><%=item.author%></p>
+        <input type="hidden" name="description" value="<%=item.description%>"/><p><%=item.description%></p>
+        <button type="submit">Add to my Shelfbook</button>
+        </form>
       </li>
       <%})%>
     </ul>

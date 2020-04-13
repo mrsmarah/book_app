@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="/public/styles/base.css" />
+    <%- include('../layout/head.ejs')%>
   </head>
   <body>
-    <h1>Welcome To The Book App!</h1>
+    <header>
+      <%- include('../layout/header.ejs')%>
+      <p><%=book.length%></p>
+    </header>
+    <main>
+      <ul>
+        <% book.forEach(item=>{%>
+        <li>
+          <img src="<%=item.image_url%>">
+          <p><%=item.title%></p>
+          <p><%=item.author%></p>
+          <a class="bookBtn" href="/books/<%=item.id%>">View Details</a>
+        </li>
+        <%})%>
+      </ul>
+    </main>
   </body>
 </html>

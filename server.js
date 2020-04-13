@@ -8,9 +8,8 @@ const superagent = require('superagent');
 const PORT = process.env.PORT || 4000;
 const app = express();
 app.use(express.urlencoded({ extended: true })); //Tell the server I want to post a FORM
+app.use('/public', express.static('public'));
 app.set('view engine', 'ejs'); // set the view engine
-// app.use('*', notFoundHandler);
-// app.use(errorHandler);
 
 //Main Route
 
@@ -27,9 +26,12 @@ app.get('/searches/new', (req, res) => {  // render the new.ejs from the views f
 //Showing Books Route
 
 app.post('/searches', (req, res) => { // render the show.ejs from the views folder
-    const url = `https://www.googleapis.com/books/v1/volumes?q=${req.body.searched}`;
+  const searchKeyword = req.body.searched;
+  const filterApplied = req.body.radio;
+    let url =`https://www.googleapis.com/books/v1/volumes?q=${searchKeyword}&in${filterApplied}=${searchKeyword}`;
     superagent.get(url).then((apiResponse) => {
-        // console.log(apiResponse);
+        // console.log(req.body.searched);
+        // console.log(req.body.radio);
         const book = apiResponse.body.items.map((data) => {
             return new Book(data);
           });
@@ -38,18 +40,23 @@ app.post('/searches', (req, res) => { // render the show.ejs from the views fold
     .catch((err) => errorHandler(err, req, res));
   });
 
-function Book(data) {
+  
+  function Book(data) {
     this.image_url = data.volumeInfo.imageLinks.thumbnail  ? data.volumeInfo.imageLinks.thumbnail : "DEFULT IMG";
     this.title = data.volumeInfo.title ?  data.volumeInfo.title : "DEFULT TITLE";
     this.author = data.volumeInfo.authors ? data.volumeInfo.authors : "DEFULT AUTHOR";
     this.description = data.volumeInfo.description ? data.volumeInfo.description : "DEFULT DESCRIPTION";
   }
 
+
+app.use('*', notFoundHandler);
+app.use(errorHandler);
+
   // Error Handlers:
 
-// function notFoundHandler(req, res) {
-//   res.status(404).send('NOT FOUND!!');
-// }
+function notFoundHandler(req, res) {
+  res.status(404).send('NOT FOUND!!');
+}
 function errorHandler(err, req, res) {
   res.status(500).send(err);
 }

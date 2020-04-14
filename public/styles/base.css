@@ -1,7 +1,12 @@
 body {
-    background-color: rgb(141, 139, 139);
+    background-color: rgb(77, 73, 73);
+    justify-content: center;
   }
 h1 {
     text-align: center;
     color: red;
+  }
+
+  input {
+    display: block;
   }

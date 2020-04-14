@@ -3,22 +3,22 @@
   <head>
     <%- include('../../layout/head.ejs')%>
   </head>
-  <body>
-    <header>
+  <body class="container">
+    <header class='one a'>
       <%- include('../../layout/header.ejs')%>
     </header>
-    <ul>
-      <% book.forEach(item=>{%>
-      <li>
-        <form action="/books" method="POST">
-        <input type="hidden" name="img" value="<%=item.image_url%>"/><img src="<%=item.image_url%>">
-        <input type="hidden" name="title" value="<%=item.title%>"/><p><%=item.title%></p>
-        <input type="hidden" name="author" value="<%=item.author%>"/><p><%=item.author%></p>
-        <input type="hidden" name="description" value="<%=item.description%>"/><p><%=item.description%></p>
-        <button type="submit">Add to my Shelfbook</button>
-        </form>
-      </li>
-      <%})%>
-    </ul>
+    <main>
+      <section>
+        <ul>
+          <% book.forEach(book=>{%>
+          <li>
+            <section>
+              <%- include('../../layout/form.ejs',{formAction:"SHOW", book:book})%>
+            </section>
+          </li>
+          <%})%>
+        </ul>
+      </section>
+    </main>
   </body>
 </html>

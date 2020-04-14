@@ -5,6 +5,7 @@
 require('dotenv').config();
 const express = require('express');
 const pg = require('pg');
+const methodOverride = require('method-override');
 const superagent = require('superagent');
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -15,6 +16,7 @@ client.on('error', (err) => console.log(err));
 
 app.use(express.urlencoded({ extended: true })); //Tell the server I want to post a FORM
 app.use('/public', express.static('public')); // tell the server to connect the CSS
+app.use(methodOverride('_method')); //tell the server to override post method to listen to UPDATE/DELETE queries
 
 // set the view engine
 
@@ -34,7 +36,21 @@ app.get('/', (req, res) => {  // render the index.ejs from DB
     });
 });
 
-app.get('/books/:id', (req, res) => {  // render the 
+
+app.get('/edit/:id', (req, res) => {  // render the edit.ejs (form)
+  const SQL = 'SELECT * FROM books WHERE id=$1;';
+  const values = [req.params.id];
+  client
+    .query(SQL, values)
+    .then((results) => {
+      res.render('pages/books/edit.ejs', { book : results.rows[0] });
+    })
+    .catch((err) => {
+      errorHandler(err, req, res);
+    });
+});
+
+app.get('/books/:id', (req, res) => {  // render the datails of a book
   const SQL = 'SELECT * FROM books WHERE id=$1;';
   const values = [req.params.id];
   client
@@ -47,18 +63,20 @@ app.get('/books/:id', (req, res) => {  // render the
     });
 });
 
-app.post('/books',(req, res)=>{
-  const sqlSearch = 'SELECT title FROM books WHERE title=$1;'
-  const searchVal = [req.body.title];
-  client.query(sqlSearch, searchVal).then((searchedResult)=> {
-    if(searchedResult.rows.length > 0){
-        res.redirect('/');
-    }else{
-  const SQL ='INSERT INTO books (image_url,title,author,description) VALUES ($1,$2,$3,$4)';
-  const values =[req.body.img, req.body.title ,req.body.author ,req.body.description];
-  client.query(SQL, values).then((results) => {
-      // res.render('pages/books/detail.ejs', { book : results.rows[0] });
+
+app.post('/books',(req, res)=>{// Insert books into DB if not
+  let SQL = 'SELECT isbn FROM books WHERE isbn=$1;'
+  let values = [req.body.isbn];
+  client.query(SQL, values).then((results)=> {
+    if(results.rows.length > 0){
       res.redirect('/');
+      // res.render('pages/books/show.ejs', { book : results.rows[0] });
+    }else{
+  let SQL ='INSERT INTO books (image_url,title,author,description,isbn) VALUES ($1,$2,$3,$4,$5);';
+  let values =[req.body.img, req.body.title ,req.body.author ,req.body.description, req.body.isbn];
+  client.query(SQL, values).then((results) => {
+      res.redirect('/');
+      // res.render('pages/books/show.ejs', { book : values });
     })
     .catch((err) => {
       errorHandler(err, req, res);
@@ -68,9 +86,31 @@ app.post('/books',(req, res)=>{
 
 //Form Route
 
-app.get('/searches/new', (req, res) => {  // render the new.ejs from the views folder and pass object to it
-    res.render('pages/searches/new.ejs');
+app.get('/searches/new', (req, res) => {  // render the new.ejs (search form) 
+   res.render('pages/searches/new.ejs');
 });
+
+
+//Updating 
+
+app.put('/update/:id', (req, res) => { 
+  const SQL ='UPDATE books SET image_url=$1,title=$2,author=$3,description=$4,isbn=$5 WHERE id=$6;';
+  const values =[req.body.img, req.body.title ,req.body.author ,req.body.description, req.body.isbn, req.params.id];
+client
+.query(SQL,values).then((results)=> res.redirect(`/books/${req.params.id}`))
+.catch((err)=> errorHandler(err,req,res))
+});
+
+//Deleting
+
+app.delete('/delete/:id', (req, res) => { 
+  const SQL = 'DELETE FROM books WHERE id=$1';
+  const values = [req.params.id];
+  client
+    .query(SQL, values)
+    .then((results) => res.redirect('/'))
+    .catch((err) => errorHandler(err, req, res))
+});    
 
 //Showing Books Route
 
@@ -95,6 +135,7 @@ app.post('/searches', (req, res) => { // render the show.ejs from the views fold
     this.title = data.volumeInfo.title ?  data.volumeInfo.title : "DEFULT TITLE";
     this.author = data.volumeInfo.authors ? data.volumeInfo.authors : "DEFULT AUTHOR";
     this.description = data.volumeInfo.description ? data.volumeInfo.description : "DEFULT DESCRIPTION";
+    this.isbn = data.volumeInfo.industryIdentifiers[0].identifier;
   }
 
 

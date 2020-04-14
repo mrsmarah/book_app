@@ -4,17 +4,19 @@
   <%- include('../../layout/head.ejs')%>
 
 </head>
-<body>
-    <header>
+<body class="container">
+    <header class='one a'>
       <%- include('../../layout/header.ejs')%>
     </header>
       <main>
-        <form action="/searches" method="POST">
-          <input type="text" name="searched" placeholder="Enter a title or an author"/>
-          <label><input type="radio" name="radio" value="title"/>Title</label>
-          <label><input type="radio" name="radio" value="author"/>Author</label>
-          <button>Submit</button>
-        </form>
+        <section>
+          <form action="/searches" method="POST">
+            <input type="text" name="searched" placeholder="Enter a title or an author"/>
+            <label><input type="radio" name="radio" value="title"/>Title</label>
+            <label><input type="radio" name="radio" value="author"/>Author</label>
+            <button>Search</button>
+          </form>
+        </section>
       </main>
 </body>
 </html>

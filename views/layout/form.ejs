@@ -5,13 +5,19 @@
  let title = formAction === "UPDATE" ?  "" : `${book.title}`;
  let author = formAction === "UPDATE" ? "" : `${book.author}`;
  let description = formAction === "UPDATE" ? "" : `${book.description}`;
+ let classStyle = formAction === "UPDATE" ? "sec-containerT" : "sec-containerF";
+ let btn5 = formAction === "UPDATE" ? "btn5" : "btn2";
  %>
 
 <form action="<%=action%>" method="POST">
-    <input type="<%=type%>" name="img" value="<%=book.image_url%>" placeholder="<%=book.image_url%>"/><img src="<%=url%>">
-    <input type="<%=type%>" name="title" value="<%=book.title%>" placeholder="<%=book.title%>"/><p><%=title%></p>
-    <input type="<%=type%>" name="author" value="<%=book.author%>" placeholder="<%=book.author%>"/><p><%=author%></p>
-    <input type="<%=type%>" name="description" value="<%=book.description%>" placeholder="<%=book.description%>"/><p><%=description%></p>
-    <input type="<%=type%>" name="isbn" value="<%=book.isbn%>" placeholder="<%=book.isbn%>"/>
-    <button type="submit"><%=button%></button>
+    <section class="contOFcont">
+        <section  class="<%=classStyle%>" >
+            <input class="inp1" type="<%=type%>" name="img" value="<%=book.image_url%>" placeholder="<%=book.image_url%>"/><img class="img1" src="<%=url%>">
+            <input class="inp2" type="<%=type%>" name="title" value="<%=book.title%>" placeholder="<%=book.title%>"/><p class="p1"><%=title%></p>
+            <input class="inp3" type="<%=type%>" name="author" value="<%=book.author%>" placeholder="<%=book.author%>"/><p class="p2"><%=author%></p>
+            <input class="inp4" type="<%=type%>" name="description" value="<%=book.description%>" placeholder="<%=book.description%>"/><p class="p3"><%=description%></p>
+            <input class="inp5" type="<%=type%>" name="isbn" value="<%=book.isbn%>" placeholder="<%=book.isbn%>"/>
+            <button type="submit" class="<%=btn5%>"><%=button%></button>
+        </section>
+    </section>
 </form>

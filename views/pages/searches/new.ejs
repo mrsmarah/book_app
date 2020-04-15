@@ -9,14 +9,16 @@
       <%- include('../../layout/header.ejs')%>
     </header>
       <main>
-        <section>
           <form action="/searches" method="POST">
-            <input type="text" name="searched" placeholder="Enter a title or an author"/>
-            <label><input type="radio" name="radio" value="title"/>Title</label>
-            <label><input type="radio" name="radio" value="author"/>Author</label>
-            <button>Search</button>
+            <section class="contOFcont">
+              <section class="sec-containerT">
+                <input class="inpSearch" type="text" name="searched" placeholder="Enter a title or an author"/>
+                <label class="inpRadio1"><input type="radio" name="radio" value="title"/>Title</label>
+                <label class="inpRadio2"><input type="radio" name="radio" value="author"/>Author</label>
+                <button class="btn6">Search</button>
+              </section>
+            </section>
           </form>
-        </section>
       </main>
 </body>
 </html>

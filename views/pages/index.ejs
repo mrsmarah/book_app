@@ -6,19 +6,17 @@
   <body class="container">
     <header class='one a'>
       <%- include('../layout/header.ejs')%>
-      <section><p><%=book.length%></p></section>
+      <section class="length"><p><%=book.length%> books</p></section>
     </header>
-    <main>
-      <ul>
+    <main class="contOFcont">
         <% book.forEach(item=>{%>
-        <li>
-          <img src="<%=item.image_url%>">
-          <p><%=item.title%></p>
-          <p><%=item.author%></p>
-          <a class="bookBtn" href="/books/<%=item.id%>">View Details</a>
-        </li>
+          <section class="sec-container">
+            <img class="img1" src="<%=item.image_url%>">
+            <p class="p1"><%=item.title%></p>
+            <p class="p2"><%=item.author%></p>
+            <button class="btn1"><a class="bookBtn" href="/books/<%=item.id%>">View Details</a></button>
+          </section>
         <%})%>
-      </ul>
     </main>
   </body>
 </html>
